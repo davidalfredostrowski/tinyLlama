@@ -1,0 +1,95 @@
+pwd
+    3  sudo apt-get update
+    4  sudo apt install python3-pip
+    5  git clone https://github.com/March-08/tiny-llama-ec2.git
+    6  ls
+    7  cd tiny-llama-ec2/
+    8  ls
+    9  vi download_model.sh
+   10  ls
+   11  wget https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0
+   12  ls
+   13  vi requirements.txt
+   14  ls
+   15  cd ..
+   16  pip install git+https://github.com/huggingface/transformers.git
+  X 17  pip install accelerate
+   18  python3
+   19  pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+   20  python3
+   21  ls
+   22  cd tiny-llama-ec2/
+   23  ls
+   24  ls =l
+   25  ls -l
+   26  python3
+   27  pip install accelerate
+   28  history
+
+
+
+
+import torch  
+from transformers import pipeline   
+>>> pipe = pipeline("text-generation",model="TinyLlama/TinyLlama-1.1B-Chat-v1.0",torch_dtype=torch.bfloat16,device_map="cpu",)
+
+query="tell me a joke about politicians"
+messages = [{"role": "system","content": "You are a friendly chatbot who always funny and interest},{"role": "user", "content": f"{query}"},]
+messages = [ { "role": "system",  "content": "You are a friendly chatbot who always funny and interesting. You only reply with the actual answer without repeating my question.",},{"role": "user", "content": f"{query}"},]
+
+
+prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+outputs = pipe(prompt,max_new_tokens=256,do_sample=True,temperature=0.7,top_k=50,top_p=0.95,)
+
+
+
+Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+>>> import torch
+>>>
+>>> from transformers import pipeline
+>>> pipe = pipeline("text-generation",model="TinyLlama/TinyLlama-1.1B-Chat-v1.0",torch_dtype=torch.bfloat16,device_map="cpu",)
+config.json: 100%|█████████████████████████████| 608/608 [00:00<00:00, 3.82MB/s]
+model.safetensors: 100%|████████████████████| 2.20G/2.20G [00:15<00:00, 145MB/s]
+generation_config.json: 100%|███████████████████| 124/124 [00:00<00:00, 684kB/s]
+tokenizer_config.json: 100%|███████████████| 1.29k/1.29k [00:00<00:00, 8.62MB/s]
+tokenizer.model: 100%|███████████████████████| 500k/500k [00:00<00:00, 28.3MB/s]
+tokenizer.json: 100%|██████████████████████| 1.84M/1.84M [00:00<00:00, 8.57MB/s]
+special_tokens_map.json: 100%|█████████████████| 551/551 [00:00<00:00, 3.67MB/s]
+>>>
+>>> query="tell me a joke about politicians"
+>>> messages = [{"role": "system","content": "You are a friendly chatbot who always funny and interest},{"role": "user", "content": f"{query}"},]
+  File "<stdin>", line 1
+    messages = [{"role": "system","content": "You are a friendly chatbot who always funny and interest},{"role": "user", "content": f"{query}"},]
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+>>> messages = [ { "role": "system",  "content": "You are a friendly chatbot who always funny and interesting. You only reply with the actual answer without repeating my question.",},{"role": "user", "content": f"{query}"},]
+>>> prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+>>> outputs = pipe(prompt,max_new_tokens=256,do_sample=True,temperature=0.7,top_k=50,top_p=0.95,)
+
+>>>
+>>> outputs
+[{'generated_text': "<|system|>\nYou are a friendly chatbot who always funny and interesting. You only reply with the actual answer without repeating my question.</s>\n<|user|>\ntell me a joke about politicians</s>\n<|assistant|>\nSure, here's a joke about politicians:\n\nQ: What do you call a politician with a penchant for penguins?\n\nA: A penguin-loving politician.\n\nThis joke is based on the fact that many politicians have a penchant for penguins, often because they are known for their love for cold-weather animals. Penguins are often associated with cold, remote areas, making them a popular choice for politicians who want to feel a bit more connected to nature."}]
+>>> query="what is the capital of puerto rico"                                  >>> messages = [ { "role": "system",  "content": "You are a friendly chatbot who always funny and interesting. You only reply with the actual answer without repeating my question.",},{"role": "user", "content": f"{query}"},]
+>>> prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+>>> outputs
+[{'generated_text': "<|system|>\nYou are a friendly chatbot who always funny and interesting. You only reply with the actual answer without repeating my question.</s>\n<|user|>\ntell me a joke about politicians</s>\n<|assistant|>\nSure, here's a joke about politicians:\n\nQ: What do you call a politician with a penchant for penguins?\n\nA: A penguin-loving politician.\n\nThis joke is based on the fact that many politicians have a penchant for penguins, often because they are known for their love for cold-weather animals. Penguins are often associated with cold, remote areas, making them a popular choice for politicians who want to feel a bit more connected to nature."}]
+>>> outputs = pipe(prompt,max_new_tokens=256,do_sample=True,temperature=0.7,top_k=50,top_p=0.95,)
+>>> outputs
+[{'generated_text': '<|system|>\nYou are a friendly chatbot who always funny and interesting. You only reply with the actual answer without repeating my question.</s>\n<|user|>\nwhat is the capital of puerto rico</s>\n<|assistant|>\nThe capital of Puerto Rico is San Juan. It is the largest city and the economic and political center of Puerto Rico.\n\nHowever, as of the time of this writing, the capital of Puerto Rico is not specified in any official documents or government websites.'}]
+>>> query="can you generate a contract to loan money to a relative"             >>> messages = [ { "role": "system",  "content": "You are a friendly chatbot who always funny and interesting. You only reply with the actual answer without repeating my question.",},{"role": "user", "content": f"{query}"},]
+>>> prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+>>> outputs = pipe(prompt,max_new_tokens=256,do_sample=True,temperature=0.7,top_k=50,top_p=0.95,)
+>>> outputs
+[{'generated_text': '<|system|>\nYou are a friendly chatbot who always funny and interesting. You only reply with the actual answer without repeating my question.</s>\n<|user|>\ncan you generate a contract to loan money to a relative</s>\n<|assistant|>\nI do not have a contract, but I can provide you with a general idea of what a loan contract might look like:\n\nloan contract:\n\nthis loan contract ("contract") is made and entered into on the _____________ day of ________________, 20__, by and between __________________________ ("borrower"), a __________________ corporation with __________________ address ("borrower"), and ___________________________ ("lender"), a __________________ corporation with __________________ address ("lender").\n\n1. Loan Amount and Terms:\n\nthe loan agreement is made between the borrower and the lender to provide the lender with a loan of __________________ dollars ($__________) in exchange for the borrower\'s obligation to repay the loan in __________________ equal installments, each due on __________________ ____________________, starting on __________________ ____________________. The loan will be repaid by __________________ ____________________, which is due upon the maturity date of the loan, __________________ ___________________.\n\n2. Interest Rate:\n\nthe lender agrees to charge the bor'}]
+>>>
+
+
+
+
+
+
+
+
+

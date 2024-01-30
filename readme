@@ -93,3 +93,54 @@ SyntaxError: invalid syntax. Perhaps you forgot a comma?
 
 
 
+
+
+
+
+
+jan 30 2024
+
+  1  sudo apt-get update
+    2  git clone https://github.com/March-08/tiny-llama-ec2.git
+    3  cd tiny-llama-ec2/
+    4  pip install git+https://github.com/huggingface/transformers.git
+    5  pip install accelerate
+    6  pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+    7  python32
+    8  python3
+    9  ls
+   10  history
+
+
+>>> import torch
+>>> from transformers import pipeline
+>>> pipe = pipeline("text-generation",model="TinyLlama/TinyLlama-1.1B-Chat-v1.0",torch_dtype=torch.bfloat16,device_map="cpu",)
+config.json: 100%|█████████████████████████████| 608/608 [00:00<00:00, 3.91MB/s]
+model.safetensors: 100%|████████████████████| 2.20G/2.20G [00:14<00:00, 152MB/s]
+generation_config.json: 100%|███████████████████| 124/124 [00:00<00:00, 842kB/s]
+tokenizer_config.json: 100%|███████████████| 1.29k/1.29k [00:00<00:00, 8.17MB/s]
+tokenizer.model: 100%|████████████████████████| 500k/500k [00:00<00:00, 450MB/s]
+tokenizer.json: 100%|██████████████████████| 1.84M/1.84M [00:00<00:00, 6.28MB/s]
+special_tokens_map.json: 100%|█████████████████| 551/551 [00:00<00:00, 3.50MB/s]
+>>>  query="tell me a joke about politicians"
+  File "<stdin>", line 1
+    query="tell me a joke about politicians"
+IndentationError: unexpected indent
+>>> query="tell me a joke about politicians"
+>>> messages = [ { "role": "system",  "content": "You are a friendly chatbot who always funny and interesting. You only reply with the actual answer without repeating my question.",},{"role": "user", "content": f"{query}"},]
+>>> prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+>>> outputs = pipe(prompt,max_new_tokens=256,do_sample=True,temperature=0.7,top_k=50,top_p=0.95,)
+
+>>>
+>>> outputs
+[{'generated_text': '<|system|>\nYou are a friendly chatbot who always funny and interesting. You only reply with the actual answer without repeating my question.</s>\n<|user|>\ntell me a joke about politicians</s>\n<|assistant|>\nSure, I\'d be happy to tell you a joke about politicians!\n\nSo a politician was walking down the stre
+
+
+
+
+
+
+
+
+
+
